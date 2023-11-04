@@ -8,8 +8,6 @@ let cat;
 let catWalk
 let catPlayer
 let catSpritesheet2
-let guestPic
-let guest
 
 
 
@@ -57,12 +55,21 @@ let customerOffset = 0
 let frames = [];
 let frameIndex = 0
 
-
+//guest
+let guestPic
+let guest
+let guest1
+let guest2
+let guest3
+let guests = []
 let guestFrame = []
 let guestFrameIndex = 0
 
 //order
 let order
+
+//test
+let count = 0
 
 
 
@@ -99,9 +106,9 @@ function setup(){
 
   //set table
   yellowTable = new Table(400,550,"bg");
-  spot1 = new Spot(yellowTable.x,yellowTable.y-40)
-  spot2 = new Spot(yellowTable.x-80,yellowTable.y -40)
-  spot3 = new Spot(yellowTable.x+80,yellowTable.y -40)
+  spot1 = new Spot(yellowTable.x+60,yellowTable.y-40,"two")
+  spot2 = new Spot(yellowTable.x-60,yellowTable.y -40,"one")
+  //spot3 = new Spot(yellowTable.x+80,yellowTable.y -40,"three")
 
   
   //small tables
@@ -126,10 +133,19 @@ function setup(){
   catPlayer = new Cat(500,650)
 
   //cat guest 
-  guest = new Guest(450,250)
+  guest = new Guest(450,350)
+  guest1 = new Guest(400,300)
+  guest3 = new Guest(400,300)
+
+  guests.push(guest);
+  guests.push(guest1);
+  guests.push(guest3)
+
+  
+  
 
   //order
-  order = new Order(guest.x,350);
+  //order = new Order(guest.x,350);
 
   //frames for cat player
   for (let x = 0; x < catWalk.width; x += 329) {
@@ -143,26 +159,45 @@ function setup(){
     guestFrame.push(frame);
   }
 
-
-
 }
 
 
 
 function draw(){
+  //background img
   imageMode(CORNER)
   
   image(bg,0,0)
+  
+  imageMode(CENTER)
 
-  guest.moveAndDisplay()
+  text(guest.status,700,100)
+  text("Spot 1 Is Available ? "+spot1.type + " " + spot1.isAvailable,100,120)
+  text("Spot2 Is Available ? "+spot2.type + " " + spot2.isAvailable,250,140)
+  //text("Spot3 Is Available ? "+" " + spot3.isAvailable,400,160)
 
+  //guest  start
+
+
+  for(let i = 0; i < guests.length;i++){
+    guests[i].moveAndDisplay()
+  }
+ 
+  //guest  end
+
+
+  //setting tables & spots
   yellowTable.display()
   spot1.display()
-  spot2.display()
-  spot3.display()
 
+  spot2.display()
+ 
+ 
+
+   //player start
   catPlayer.display()
   catPlayer.move()
+  //player end 
  
   smolTbl1.display()
   smolTbl2.display()
@@ -171,6 +206,9 @@ function draw(){
   smolTbl5.display()
   smolTbl6.display()
 
+  //setting table end
+
+  //setting items start
   eggItem.display(smolTbl1)
   toastItem.display(smolTbl2)
   waffleItem.display(smolTbl3)
@@ -178,11 +216,14 @@ function draw(){
   milkItem.display(smolTbl5)
   coffeeItem.display(smolTbl6)
 
+  //setting items end
   catPlayer.pickUp()
   catPlayer.dropOff()
 
+  /*
   order.display()
   order.detectCollisionWithMouse()
+  */
 
 
 

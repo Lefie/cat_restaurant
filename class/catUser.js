@@ -167,7 +167,7 @@ class Cat{
         fill("red")
         //text("DISTANCE"+dist(spot1.x,spot1.y,this.x,this.y),500,20)
         if(((dist(spot1.x,spot1.y,this.x,this.y) < 62) ||
-        (dist(spot2.x,spot2.y,this.x,this.y) < 62) || (dist(spot3.x,spot3.y,this.x,this.y) < 62)) && this.status == "standing"
+        (dist(spot2.x,spot2.y,this.x,this.y) < 62)) && this.status == "standing"
          ){
            this.withItem = "nothing"
            this.withItemRight = "nothing"
