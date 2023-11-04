@@ -16,8 +16,8 @@ let table;
 let smTable;
 let spot
 let spot1
-let spot2
-let spot3
+//let spot2
+//let spot3
 
 let yellowTable;
 let smolTbl1;
@@ -65,8 +65,7 @@ let guests = []
 let guestFrame = []
 let guestFrameIndex = 0
 
-//order
-let order
+
 
 //test
 let count = 0
@@ -106,9 +105,8 @@ function setup(){
 
   //set table
   yellowTable = new Table(400,550,"bg");
-  spot1 = new Spot(yellowTable.x+60,yellowTable.y-40,"two")
-  spot2 = new Spot(yellowTable.x-60,yellowTable.y -40,"one")
-  //spot3 = new Spot(yellowTable.x+80,yellowTable.y -40,"three")
+  spot1 = new Spot(yellowTable.x,yellowTable.y-40,"two")
+  //spot2 = new Spot(yellowTable.x-60,yellowTable.y -40,"one")
 
   
   //small tables
@@ -138,14 +136,13 @@ function setup(){
   guest3 = new Guest(400,300)
 
   guests.push(guest);
-  guests.push(guest1);
-  guests.push(guest3)
+  guests.push(new Guest(400,300))
+  //guests.push(new Guest(400,380))
+  //guests.push(guest1);
+  //guests.push(guest3)
 
   
-  
 
-  //order
-  //order = new Order(guest.x,350);
 
   //frames for cat player
   for (let x = 0; x < catWalk.width; x += 329) {
@@ -173,7 +170,7 @@ function draw(){
 
   text(guest.status,700,100)
   text("Spot 1 Is Available ? "+spot1.type + " " + spot1.isAvailable,100,120)
-  text("Spot2 Is Available ? "+spot2.type + " " + spot2.isAvailable,250,140)
+  //text("Spot2 Is Available ? "+spot2.type + " " + spot2.isAvailable,250,140)
   //text("Spot3 Is Available ? "+" " + spot3.isAvailable,400,160)
 
   //guest  start
@@ -190,7 +187,7 @@ function draw(){
   yellowTable.display()
   spot1.display()
 
-  spot2.display()
+  //spot2.display()
  
  
 
@@ -220,12 +217,6 @@ function draw(){
   catPlayer.pickUp()
   catPlayer.dropOff()
 
-  /*
-  order.display()
-  order.detectCollisionWithMouse()
-  */
-
-
 
   image(coin,50,40,50,50)
 
@@ -235,30 +226,3 @@ function draw(){
 
 
 
-
-/*
-cat sprite sheet 
- if(frameCount % 30 == 0){
-    offset += 345
-  }
-
-  x+= 0.5
-
-  image(catWalk,0,0,100,80,offset,0,300,250) 
-
-  if(offset >= catWalk.width){
-    offset = 0
-  }
-*/
-
-/* customer
-if(frameCount % 10 === 0){
-    customerOffset += 330
-  }
-  image(catSpritesheet2,150,130,100,80,customerOffset,0,320,250)
-
-  if(customerOffset > catSpritesheet2.width){
-    customerOffset = 0
-  }
-
-*/

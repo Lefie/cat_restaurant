@@ -121,7 +121,6 @@ class Cat{
               }
           
             
-      
             }else{
               this.x = this.desiredX
               this.y = this.desiredY
@@ -166,8 +165,7 @@ class Cat{
       dropOff(){
         fill("red")
         //text("DISTANCE"+dist(spot1.x,spot1.y,this.x,this.y),500,20)
-        if(((dist(spot1.x,spot1.y,this.x,this.y) < 62) ||
-        (dist(spot2.x,spot2.y,this.x,this.y) < 62)) && this.status == "standing"
+        if(((dist(spot1.x,spot1.y,this.x,this.y) < 62)) && this.status == "standing"
          ){
            this.withItem = "nothing"
            this.withItemRight = "nothing"
