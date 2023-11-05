@@ -46,6 +46,7 @@ let milkItem
 
 //coin
 let coin;
+let coinObj
 
 //move 
 let x = 0
@@ -69,9 +70,8 @@ let guestFrameIndex = 0
 
 
 //test
-let count = 0
-
-
+let count = 0 // count customer
+let pos;
 
 
 function preload(){
@@ -104,6 +104,9 @@ function setup(){
   c.parent("#container")
   bg.resize(width,height)
 
+  //coin
+  coinObj = new Coin(50,40,50)
+
 
   //set table
   yellowTable = new Table(400,550,"bg");
@@ -134,19 +137,10 @@ function setup(){
   
 
   //cat guest 
-  guest = new Guest(450,350)
-  guest1 = new Guest(400,300)
-  guest3 = new Guest(400,300)
 
   //guests.push(guest);
-  guests.push(new Guest(400,340))
-  guests.push(new Guest(400,360))
-  //guests.push(new Guest(400,380))
-  //guests.push(guest1);
-  //guests.push(guest3)
-
+  guests.push(new Guest(random(250,400),350))
   
-
 
   //frames for cat player
   for (let x = 0; x < catWalk.width; x += 329) {
@@ -171,6 +165,7 @@ function draw(){
   image(bg,0,0)
   
   imageMode(CENTER)
+  coinObj.display("regular")
 
   //text(guest.status,700,100)
   text("Spot 1 Is Available ? "+spot1.type + " " + spot1.isAvailable,100,120)
@@ -179,14 +174,38 @@ function draw(){
 
   //guest  start
 
-
+ 
   for(let i = 0; i < guests.length;i++){
-   let stat = guests[i].moveAndDisplay()
-    if(stat === "done"){
-      guests.splice(i,1)
-      i = i - 1
+    if(guests[i].count <= 400){
+      guests[i].hangingOut()
+    }else if(guests[i].count > 400 && guests[i].isSeated === false ){
+      pos = guests[i].walking()
     }
-  }
+
+    if(pos === "inPosition"){
+      guests[i].seatedAndOrder()
+    }
+
+    
+
+
+    
+    
+  //  let stat = guests[i].moveAndDisplay(undefined)
+   
+   
+  //   if(stat === "done"){
+  //     guests.splice(i,1)
+  //     i = i - 1
+  //     guests.push(new Guest(random(300,400),350))
+  //     count += 1
+  //     }
+    }
+
+    if(count >= 5){
+      catPlayer.status = "done"
+      guests = []
+    }
  
   //guest  end
 
@@ -204,9 +223,7 @@ function draw(){
   catPlayer.move()
   //player end 
 
-  if(guests.length === 0){
-    catPlayer.status = "done"
-  }
+ 
  
   smolTbl1.display()
   smolTbl2.display()
@@ -230,7 +247,7 @@ function draw(){
   catPlayer.dropOff()
 
 
-  image(coin,50,40,50,50)
+  //image(coin,50,40,50,50)
 
  
 

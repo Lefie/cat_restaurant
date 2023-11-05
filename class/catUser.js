@@ -8,7 +8,7 @@ class Cat{
       this.desiredX = x
       this.desiredY = y
       this.status = "standing"
-      this.withItem = "nothing"
+      this.withItemLeft = "nothing"
       this.withItemRight = "nothing"
     }
   
@@ -17,13 +17,13 @@ class Cat{
       if(this.status === "standing"){
         this.graphic = cat
         image(this.graphic,this.x,this.y,this.w,this.h)
-        if(this.withItem === "egg"){
+        if(this.withItemLeft === "egg"){
           image(eggItem.graphic,this.x,this.y,50,50)
         }
-        if(this.withItem === "toast"){
+        if(this.withItemLeft === "toast"){
           image(toastItem.graphic,this.x,this.y,50,50)
         }
-        if(this.withItem === "waffle"){
+        if(this.withItemLeft === "waffle"){
           image(waffleItem.graphic,this.x,this.y,50,50)
         }
         if(this.withItemRight === "oj"){
@@ -48,13 +48,13 @@ class Cat{
           frameIndex = (frameIndex + 1) % frames.length;
         }
       
-        if(this.withItem === "egg"){
+        if(this.withItemLeft === "egg"){
           image(eggItem.graphic,this.x,this.y,50,50)
         }
-        if(this.withItem === "toast"){
+        if(this.withItemLeft === "toast"){
           image(toastItem.graphic,this.x,this.y,50,50)
         }
-        if(this.withItem === "waffle"){
+        if(this.withItemLeft === "waffle"){
           image(waffleItem.graphic,this.x,this.y,50,50)
         }
         if(this.withItemRight === "oj"){
@@ -114,19 +114,19 @@ class Cat{
               //text("desiredY" + this.desiredY,10,200)
   
               if(this.x > this.desiredX){
-                this.x -= 1
+                this.x -= 1.5
               }
   
               if(this.x < this.desiredX){
-                this.x += 1
+                this.x += 1.5
               }
   
               if(this.y < this.desiredY){
-                this.y += 1
+                this.y += 1.5
               }
   
               if(this.y > this.desiredY){
-                this.y -= 1
+                this.y -= 1.5
               }
           
             
@@ -144,16 +144,16 @@ class Cat{
         
       
         if(dist(eggItem.x,eggItem.y,this.x,this.y) < 82 && this.status === "standing"){
-          this.withItem = "egg"
+          this.withItemLeft = "egg"
          
         }
   
         if(dist(toastItem.x,toastItem.y,this.x,this.y) < 82  && this.status === "standing"){
-          this.withItem = "toast"
+          this.withItemLeft = "toast"
         }
   
         if(dist(waffleItem.x,waffleItem.y,this.x,this.y ) < 82 && this.status === "standing"){
-          this.withItem = "waffle"
+          this.withItemLeft = "waffle"
         }
   
         if(dist(ojItem.x,ojItem.y,this.x,this.y ) < 105 && this.status === "standing"){
@@ -176,7 +176,7 @@ class Cat{
         //text("DISTANCE"+dist(spot1.x,spot1.y,this.x,this.y),500,20)
         if(((dist(spot1.x,spot1.y,this.x,this.y) < 62)) && this.status == "standing"
          ){
-           this.withItem = "nothing"
+           this.withItemLeft = "nothing"
            this.withItemRight = "nothing"
         }
        
