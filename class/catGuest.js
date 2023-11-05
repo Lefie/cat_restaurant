@@ -10,6 +10,7 @@ let pickedItem1;
 let pickedItem2;
 
 
+
 let dict = {
     "egg": "l'omelette",
     "toast" : "Pain grillé",
@@ -50,7 +51,7 @@ class Guest{
 
       if(this.status === "hanging"){
         this.hangingOut()
-        text(this.pickedSpot,300,400)
+       
       }
 
       if(this.status === "walking"){
@@ -103,8 +104,10 @@ class Guest{
 
      
       if(this.status === "leaving"){
-        this.leaving()
+        let sta = this.leaving()
+        return sta
       }
+    
         
       }
 
@@ -141,14 +144,16 @@ class Guest{
 
         //once a seat is selected for a cat, it should no longer be available for others. 
         //once a cat has selected a seat, it should not consider a different seat
-        if(this.count >= random(200,800)){
+        if(this.count >= random(200,800) ){
             if(spot1.isAvailable ){
                 this.spot = spot1
                 spot1.isAvailable = false
                 this.status = "walking"
+           
             }
             else{
                 this.count = 0
+                this.status = "hanging"
             }
         }
 
@@ -279,7 +284,7 @@ class Guest{
 
             let d = dist(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
             //once the distance is close enough, check correctness
-            if( d < 62 ){
+            if( d <= 62 ){
                 
                 if(one === true && two === true){
                     placedSucc = "yes"
@@ -313,9 +318,16 @@ class Guest{
         placedSucc = false
         pickedItem1 = null
         pickedItem2 = null
+        correctMatch = false
+        
         //go off screen
         this.x += 1
         this.move()
+        if(this.x > 800){
+            text("done",100,320)
+            return "done"
+        }
+        
     }
 
     move(){

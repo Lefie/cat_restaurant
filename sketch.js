@@ -8,6 +8,7 @@ let cat;
 let catWalk
 let catPlayer
 let catSpritesheet2
+let catDone
 
 
 
@@ -91,6 +92,7 @@ function preload(){
   catWalk = loadImage("imgs/catwalk.png")
   catSpritesheet2 = loadImage("imgs/customer.png")
   guestPic = loadImage("imgs/guest.png")
+  catDone = loadImage("imgs/run.png")
 
 }
 
@@ -129,14 +131,16 @@ function setup(){
 
   //player cat
   catPlayer = new Cat(500,650)
+  
 
   //cat guest 
   guest = new Guest(450,350)
   guest1 = new Guest(400,300)
   guest3 = new Guest(400,300)
 
-  guests.push(guest);
-  guests.push(new Guest(400,300))
+  //guests.push(guest);
+  guests.push(new Guest(400,340))
+  guests.push(new Guest(400,360))
   //guests.push(new Guest(400,380))
   //guests.push(guest1);
   //guests.push(guest3)
@@ -168,7 +172,7 @@ function draw(){
   
   imageMode(CENTER)
 
-  text(guest.status,700,100)
+  //text(guest.status,700,100)
   text("Spot 1 Is Available ? "+spot1.type + " " + spot1.isAvailable,100,120)
   //text("Spot2 Is Available ? "+spot2.type + " " + spot2.isAvailable,250,140)
   //text("Spot3 Is Available ? "+" " + spot3.isAvailable,400,160)
@@ -177,7 +181,11 @@ function draw(){
 
 
   for(let i = 0; i < guests.length;i++){
-    guests[i].moveAndDisplay()
+   let stat = guests[i].moveAndDisplay()
+    if(stat === "done"){
+      guests.splice(i,1)
+      i = i - 1
+    }
   }
  
   //guest  end
@@ -195,6 +203,10 @@ function draw(){
   catPlayer.display()
   catPlayer.move()
   //player end 
+
+  if(guests.length === 0){
+    catPlayer.status = "done"
+  }
  
   smolTbl1.display()
   smolTbl2.display()

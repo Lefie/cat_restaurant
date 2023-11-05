@@ -32,8 +32,8 @@ class Order{
     this.c = color(0,100,0)
     this.w = 100
     this.h = 100
-    this.index1 = 0//int(random(0, 3))
-    this.index2 = 0//int(random(0, 3))
+    this.index1 = int(random(0, 3))
+    this.index2 = int(random(0, 3))
     this.item1 = foodVocab[this.index1][this.index2];
     this.item2 = drinkVocab[this.index1][this.index2];
     this.counter = 0
