@@ -1,11 +1,10 @@
-let add = false
-let subtract = false
+
 let counterAdd = 0
 let counterSub = 0
 let counter = 0
 let answered = false
 let correctMatch = false
-let placedSucc = false
+
 let pickedItem1;
 let pickedItem2;
 let one = false
@@ -36,7 +35,7 @@ let dict = {
 
 
 class Guest{
-    constructor(x,y,questionState){
+    constructor(x,y){
       this.x = x
       this.y = y
       this.w = 50
@@ -74,14 +73,10 @@ class Guest{
 
       if( type === "seated"){
         this.status === "seated"
-        this.seated()
+        this.seatedAndOrder()
       }
 
-      if(type === "ordering"){
-        this.status === "ordering"
-        this.orderFood()
-      }
-
+     
       if(type === "leaving"){
         this.status === "leaving"
         let sta = this.leaving()
@@ -98,11 +93,15 @@ class Guest{
     */
 
     hangingOut(){
+        //temp
+        timer1 = 0
+        timer2 = 0;
+        //temp
         this.move()
         this.count += 1
-        ellipse(this.desiredX,this.desiredY,10)
-        stroke(255)
-        line(this.x,this.y,this.desiredX,this.desiredY)
+        //ellipse(this.desiredX,this.desiredY,10)
+        // stroke(255)
+        // line(this.x,this.y,this.desiredX,this.desiredY)
         if(this.x < this.desiredX){
             this.x += 0.4
         }
@@ -151,7 +150,7 @@ class Guest{
     -> whereever the cat is, it will walk towards the spot
     */
     walking(){
-        text(this.spot.type,300,10)
+        //text(this.spot.type,300,10)
         
         this.move()
        
@@ -180,18 +179,16 @@ class Guest{
         }
 
         let distToSpot = dist(this.x,this.y,this.spot.x,this.spot.y-50)
-        fill("blue")
-        text("GUEST TO SPOT2 "+ distToSpot,400,10)
-        stroke("blue")
-        line(this.spot.x,this.spot.y,this.x,this.y)
+        // fill("blue")
+        // text("GUEST TO SPOT2 "+ distToSpot,400,10)
+        // stroke("blue")
+        // line(this.spot.x,this.spot.y,this.x,this.y)
     
             
         if(distToSpot < 45){
             this.x = this.spot.x
             this.y = this.spot.y -50
             return "inPosition"
-            //this.status = "seated"
-            //this.seated()
 
         }
 
@@ -202,33 +199,83 @@ class Guest{
         this.isSeated = true
         this.graphic = guestPic
         image(this.graphic,this.x,this.y,this.w,this.h)
-        if(answered === false){
-            this.order1.display()
-            pickedItem1 = this.order1.item1
-            pickedItem2 = this.order1.item2
-        }
+        
+        this.order1.display(answered)
+
         correct = this.order1.checkCorrectness()
         userAns = this.order1.detectCollisionWithMouse(userAns)
 
+       
+
         coins = this.addOrLoseCoins()
         if(coins === "Add"){
-            earn = new Coin(this.x,this.y-40,30)
-            timer1 += 1
-            if(timer1 < 150){
-                earn.display("earn")
-            }
+            // earn = new Coin(this.x,this.y-40,30)
+            // earn.display("earn")
+            // timer1 += 1
+            // if(timer1 < 400){
+                
+            //     earn.display("earn")
+            // }else{
+            //     answered = true
+            // }
+            score += 10
+            answered = true
 
+        }
+
+        if(correct === true && userAns === 1){
+            correctMatch = true
+            return "takeOrder"
+        }else if(correct === false && userAns === 0){
+            return "leave"
         }
 
         if(coins === "Loss"){
-            loss = new Coin(this.x,this.y-40,30)
-            timer2 += 1
-            if(timer2 < 150){
-                loss.display()
-            }
+            // loss = new Coin(this.x,this.y-40,30)
+            // loss.display("loss")
+            
+            // timer2 += 1
+            // if(timer2 < 400){
+            //     loss.display("loss")
+            // }else{
+            //     answered = true
+                
 
+            // }
+            score -= 10
+            answered = true
+            return "leave"
         }
         
+
+    }
+
+    takeOrder(oldV){
+
+        this.graphic = guestPic
+        image(this.graphic,this.x,this.y,this.w,this.h)
+
+        pickedItem1 = catPlayer.withItemLeft
+        pickedItem2 = catPlayer.withItemRight
+        
+       
+
+        one = dict[pickedItem1] === this.order1.item1
+        two = dict[pickedItem2] === this.order1.item2
+        
+        let d = dist(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
+        // stroke("red")
+        // line(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
+        // text(d,250,300)
+        // text("word "+ dict[pickedItem1] + " " + this.order1.item1, 200,400 )
+        //     text("word "+ dict[pickedItem2] + " " + this.order1.item2, 200,430 )
+        if(d <= 64 && one === true && two === true){
+            score += 10
+            return "success"
+        
+        }
+
+        return oldV
 
     }
 
@@ -246,63 +293,8 @@ class Guest{
 
     }
 
-    orderFood(){
-        
-        /*
-        this.graphic = guestPic
-        image(this.graphic,this.x,this.y,this.w,this.h)
 
-        // order1 = new Order(this.x,this.y - 80)
-       if(answered === false){
-        this.order1.display()
-        pickedItem1 = this.order1.item1
-        pickedItem2 = this.order1.item2
-       }
-
-       correct = this.order1.checkCorrectness()
-       userAns = this.order1.detectCollisionWithMouse(userAns)
-       console.log("is correct "+correct)
-       console.log("user answer " + userAns)
-
-       */
-
-     
-
-    
-    
-    // if(correct === true && userAns === "accepted"){
-    //     console.log("- add coins and pick up food")
-    //     /*
-    //     this.
-    //      correctMatch = true
-    //      add = true
-    //     */
-     
-    //  } else if(correct === true && userAns === "rejected"){
-    //     console.log("lose coins - should have accepted")
-    //       /*
-    //     subtract = true
-    //     */
-        
-    //  }
-    //  else if(correct === false && userAns === "accepted"){
-    //     console.log("lose coins - should not have accepted")
-    //      //subtract = true
-    //  }
-    //  else if(correct === false && userAns === "rejected"){
-    //     console.log("add coins - should not accept")
-    //     // add = true
-         
-    //  }
-
-    //  if(answered === true && (correctMatch!= true)){
-    //     // this.status = "leaving"
-    //  }
-     
-    
-
-    }
-
+  
 
     leaving(){
         console.log("status"+this.status)
@@ -312,7 +304,17 @@ class Guest{
         console.log("item2"+pickedItem2)
         console.log("correct match"+correctMatch)
 
+        if(coins === "Loss"){
+            loss = new Coin(this.x,this.y-40,30)
+            loss.displayWithTimerLoss()
+        }
+        if(coins === "Add"){
+            earn = new Coin(this.x,this.y-40,30)
+            earn.displayWithTimerAdd()
+        }
+       
 
+        
 
         answered = false
         this.isSeated = false
@@ -322,24 +324,17 @@ class Guest{
         pickedItem2 = null
         correctMatch = false
         userAns = undefined
-       
-
-        /*
-        answered = false
-        this.isSeated = false
-        spot1.isAvailable = true
-        //placedSucc = false
-        pickedItem1 = null
-        pickedItem2 = null
-        correctMatch = false
-
-        */
         
+        one = false
+        two = false
+        
+
         
         //go off screen
         this.x += 1
         this.move()
         if(this.x > 800){
+            coins = undefined
             text("done",100,320)
             return "done"
         }
@@ -456,36 +451,45 @@ class Guest{
 */
 
 /*
-      if(add === true){
-        counterAdd += 1
-        if(counterAdd <= 100){
-            fill("green")
-            ellipse(400,350,40,40)
-            image(coin,400,350,30,30)
-            text("+10",420,370)
-        }else{
-            add = false
-            counterAdd = 0
-            answered = true
-            placedSucc = false
-        }
+      this.status = "ordering"
+        this.isSeated = true
+        this.graphic = guestPic
+        image(this.graphic,this.x,this.y,this.w,this.h)
+        
+        this.order1.display(answered)
+        pickedItem1 = this.order1.item1
+        pickedItem2 = this.order1.item2
+        
+        correct = this.order1.checkCorrectness()
+        userAns = this.order1.detectCollisionWithMouse(userAns)
+
+        coins = this.addOrLoseCoins()
+        if(coins === "Add"){
+            earn = new Coin(this.x,this.y-40,30)
+            timer1 += 1
+            if(timer1 < 50){
+                earn.display("earn")
+            }else{
+                answered = true
+            }
+
         }
 
-       if(subtract === true){
-        counterSub += 1
-        if(counterSub <= 100){
-            fill("red")
-            ellipse(400,350,40,40)
-            image(coin,400,350,30,30)
-            text("-10",420,370)
-        }else{
-            subtract = false
-            counterSub = 0
-            answered = true
-            placedSucc = false
+        if(coins === "Loss"){
+            loss = new Coin(this.x,this.y-40,30)
+            timer2 += 1
+            if(timer2 < 50){
+                loss.display("loss")
+            }else{
+                answered = true
+                
+                //this.status = "leaving"
+            }
+
         }
+      
         
-      }
+      
 
  */
 

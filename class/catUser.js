@@ -73,9 +73,17 @@ class Cat{
       if(this.status === "done"){
         this.graphic = catDone
         image(this.graphic,this.x,this.y)
-        fill("pink")
-        textSize(30)
-        text("good job!",this.x,this.y - 80)
+        if(score >= 10){
+          fill("pink")
+          textSize(30)
+          text("good job!",this.x,this.y - 280)
+
+        }else if (score < 10){
+          fill("pink")
+          textSize(30)
+          text("Practice more!",this.x,this.y - 280)
+
+        }
 
       }
   

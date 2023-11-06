@@ -31,4 +31,26 @@ class Coin{
         }
         
     }
+
+    displayWithTimerLoss(){
+       this.timer += 1
+       if(this.timer <= 100){    
+        fill("red")
+        ellipse(this.x,this.y,40,40)
+        image(this.graphic,this.x,this.y,this.s,this.s)
+
+       }
+       
+    }
+
+    displayWithTimerAdd(){
+        this.timer += 1
+        if(this.timer <= 100){    
+         fill("green")
+         ellipse(this.x,this.y,40,40)
+         image(this.graphic,this.x,this.y,this.s,this.s)
+ 
+        }
+        
+     }
 }

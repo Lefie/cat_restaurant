@@ -63,7 +63,11 @@ let guest
 let guest1
 let guest2
 let guest3
+let guest4
+let guest5
+let guest6
 let guests = []
+let backgroundCats = []
 let guestFrame = []
 let guestFrameIndex = 0
 
@@ -71,7 +75,17 @@ let guestFrameIndex = 0
 
 //test
 let count = 0 // count customer
-let pos;
+let pos = undefined;
+let stat;
+let placedSucc
+let done
+
+//score
+let score = 0
+
+
+//game state
+let state = 0
 
 
 function preload(){
@@ -137,6 +151,22 @@ function setup(){
   
 
   //cat guest 
+  guest = new Guest(random(250,400),350)
+  guest1 = new Guest(random(250,400),350)
+  guest2 = new Guest(random(250,400),350)
+  guest3 = new Guest(random(250,400),350)
+  guest4 = new Guest(random(250,400),350)
+  guest5 = new Guest(random(250,400),350)
+  guest6 = new Guest(random(250,400),350)
+
+  backgroundCats.push(guest)
+  backgroundCats.push(guest1)
+  backgroundCats.push(guest2)
+  backgroundCats.push(guest3)
+  backgroundCats.push(guest4)
+  backgroundCats.push(guest5)
+  backgroundCats.push(guest6)
+
 
   //guests.push(guest);
   guests.push(new Guest(random(250,400),350))
@@ -161,52 +191,229 @@ function setup(){
 function draw(){
   //background img
   imageMode(CORNER)
-  
   image(bg,0,0)
-  
-  imageMode(CENTER)
-  coinObj.display("regular")
 
-  //text(guest.status,700,100)
-  text("Spot 1 Is Available ? "+spot1.type + " " + spot1.isAvailable,100,120)
-  //text("Spot2 Is Available ? "+spot2.type + " " + spot2.isAvailable,250,140)
-  //text("Spot3 Is Available ? "+" " + spot3.isAvailable,400,160)
+
+  //if state == 0
+  //game start
+  if(state === 0){
+   
+    gameStart()
+  }else if(state === 1){
+    gameLearning()
+  }else if(state === 2){
+    gamePlaying()
+  }
+  
+
+}
+
+function gameStart(){
+
+  image(catDone,300,270,150,100)
+  
+  fill("white")
+  textSize(30)
+  text("Cat Restaurant!",300,450)
+  
+  // fill(120,200,230)
+  // noStroke()
+  // rect(200,500,100,50,30)
+  // fill("white")
+  textSize(20)
+  text("Learn!",220,530)
+  let learn = dist(mouseX,mouseY,250,525)
+  stroke("red")
+  //line(mouseX,mouseY,250,525)
+
+  if(learn < 50){
+    // fill(120,250,230)
+    // noStroke()
+    // rect(200,500,100,50,30)
+    // fill("white")
+   
+    fill("green")
+    textSize(20)
+    text("Learn!",220,530)
+    if(mouseIsPressed){
+      state = 1
+      
+
+    }
+  }
+
+ 
+
+  // fill(120,200,230)
+  // noStroke()
+  // rect(500,500,100,50,30)
+  fill("white")
+  textSize(20)
+  text("Play!",530,530)
+  let play = dist(mouseX,mouseY,540,500)
+  //stroke("red")
+  //line(mouseX,mouseY,520,520)
+
+  if(play < 50){
+    // fill(120,250,230)
+    // noStroke()
+    // rect(500,500,100,50,30)
+    fill("green")
+    textSize(20)
+    text("Play!",530,530)
+    if(mouseIsPressed){
+      state = 2
+    }
+
+  }
+
+
+
+}
+
+function gameLearning(){
+  rectMode(CENTER)
+  noStroke()
+  fill(250,205,200)
+  rect(width/2,height/2,500,500)
+  image(oj,200,200,50,50)
+  fill("black")
+  text("Orange Juice",290,230)
+  text("Jus d'orange",440,230)
+  image(milk,200,300,50,50)
+  text("Milk",290,330)
+  text("Lait",440,330)
+  image(toast,200,400,50,50)
+  text("Toast",290,430)
+  text("Pain grillé",440,430)
+  image(egg,200,500,50,50)
+  text("Egg",290,530)
+  text("l'omelette",440,530)
+
+  // fill(120,200,230)
+  // noStroke()
+  // rect(420,590,100,50,30)
+  fill("white")
+  textSize(20)
+  text("Play!",400,600)
+  let play = dist(mouseX,mouseY,400,600)
+  stroke("red")
+  line(mouseX,mouseY,400,600)
+  if(play < 50){
+    // fill(120,250,230)
+    // noStroke()
+    // rect(420,590,100,50,30)
+    fill("green")
+    textSize(20)
+    text("Play!",400,600)
+    if(mouseIsPressed){
+      state = 2
+    }
+
+  }
+
+  
+
+}
+
+function gamePlaying(){
+
+  imageMode(CENTER)
+  //display score
+  coinObj.display("regular")
+  textSize(40)
+  text(score ,100,50)
+  textSize(10)
+
+
+  //background cats
+  for(let i = 0; i < backgroundCats.length;i++){
+    backgroundCats[i].hangingOut()
+  }
 
   //guest  start
 
- 
   for(let i = 0; i < guests.length;i++){
-    if(guests[i].count <= 400){
+    if(guests[i].count <= 100){
       guests[i].hangingOut()
-    }else if(guests[i].count > 400 && guests[i].isSeated === false ){
+    }else if(guests[i].count > 100 && guests[i].isSeated === false && guests[i].status === "hanging" ){
       pos = guests[i].walking()
     }
 
-    if(pos === "inPosition"){
-      guests[i].seatedAndOrder()
+    if(pos === "inPosition" ){
+      stat = guests[i].seatedAndOrder()
+    }
+
+     if(stat === "leave"){
+      pos = undefined
+      done = guests[i].leaving()
+    }
+   else if(stat === "takeOrder"){
+      pos = undefined
+      placedSucc = guests[i].takeOrder(placedSucc)
+      
+    }
+
+    if(placedSucc === "success"){
+      stat = undefined
+      done = guests[i].leaving()
     }
 
     
 
-
+  if(done === "done"){
     
-    
-  //  let stat = guests[i].moveAndDisplay(undefined)
-   
-   
-  //   if(stat === "done"){
-  //     guests.splice(i,1)
-  //     i = i - 1
-  //     guests.push(new Guest(random(300,400),350))
-  //     count += 1
-  //     }
+      guests.splice(i,1)
+      i = i - 1
+      guests.push(new Guest(random(300,400),350))
+      count += 1
+      stat = undefined
+      done = undefined
+      placedSucc = undefined
     }
 
-    if(count >= 5){
-      catPlayer.status = "done"
+    if(count >= 2){
+      
       guests = []
+
     }
+
+    }
+
+    if(count >= 2){
+      catPlayer.status = "done"
+      // fill(120,200,230)
+      //   noStroke()
+      //   rect(450,300,100,50,30)
+        fill("white")
+        textSize(20)
+        text("Restart",420,310)
+        let start = dist(mouseX,mouseY,430,300)
+        stroke("red")
+        line(mouseX,mouseY,430,300)
+
+        if(start < 50){
+          // fill(120,250,230)
+          // noStroke()
+          // rect(450,300,100,50,30)
+        fill("green")
+        textSize(20)
+        text("Restart",420,310)
+          if(mouseIsPressed){
+            count = 0
+            score = 0
+            state = 0
+            guests.push(new Guest(random(250,350),450))
+            done = undefined
+          }
+
+        }
  
+    }
+    
+   
+
+
   //guest  end
 
 
@@ -227,20 +434,20 @@ function draw(){
  
   smolTbl1.display()
   smolTbl2.display()
-  smolTbl3.display()
+  //smolTbl3.display()
   smolTbl4.display()
   smolTbl5.display()
-  smolTbl6.display()
+  //smolTbl6.display()
 
   //setting table end
 
   //setting items start
   eggItem.display(smolTbl1)
   toastItem.display(smolTbl2)
-  waffleItem.display(smolTbl3)
+  //waffleItem.display(smolTbl3)
   ojItem.display(smolTbl4)
   milkItem.display(smolTbl5)
-  coffeeItem.display(smolTbl6)
+  //coffeeItem.display(smolTbl6)
 
   //setting items end
   catPlayer.pickUp()
@@ -248,10 +455,8 @@ function draw(){
 
 
   //image(coin,50,40,50,50)
-
- 
-
 }
 
+ 
 
 
