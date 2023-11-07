@@ -88,6 +88,20 @@ let score = 0
 let state = 0
 
 
+//sound
+let bgMusic
+let canPlay = true
+let meow;
+let gamePlayStart = false
+let pickup
+let success
+let fail
+let cheer
+let practice
+let cheerOnce = false
+let practiceOnce = false
+
+
 function preload(){
   bg = loadImage("imgs/bg.png")
   cat = loadImage("imgs/neutral.png")
@@ -108,6 +122,16 @@ function preload(){
   guestPic = loadImage("imgs/guest.png")
   catDone = loadImage("imgs/run.png")
 
+
+  //sound
+  bgMusic = loadSound("sound/bg_music.mp3")
+  meow = loadSound("sound/meow.mp3")
+  pickup = loadSound("sound/pickup.mp3")
+  success = loadSound("sound/success.mp3")
+  fail = loadSound("sound/buzz.mp3")
+  cheer = loadSound("sound/cheer.mp3")
+  practice = loadSound("sound/practice.mp3")
+
 }
 
 
@@ -117,6 +141,12 @@ function setup(){
   let c = createCanvas(800,800)
   c.parent("#container")
   bg.resize(width,height)
+
+ // bgMusic.loop()
+ if(canPlay){
+  bgMusic.loop()
+ }
+
 
   //coin
   coinObj = new Coin(50,40,50)
@@ -197,7 +227,7 @@ function draw(){
   //if state == 0
   //game start
   if(state === 0){
-   
+    
     gameStart()
   }else if(state === 1){
     gameLearning()
@@ -272,40 +302,50 @@ function gameStart(){
 }
 
 function gameLearning(){
+  
   rectMode(CENTER)
   noStroke()
   fill(250,205,200)
-  rect(width/2,height/2,500,500)
-  image(oj,200,200,50,50)
+  rect(width/2,height/2,700,700)
+  image(oj,200,70,50,50)
   fill("black")
-  text("Orange Juice",290,230)
-  text("Jus d'orange",440,230)
-  image(milk,200,300,50,50)
-  text("Milk",290,330)
-  text("Lait",440,330)
-  image(toast,200,400,50,50)
-  text("Toast",290,430)
-  text("Pain grillé",440,430)
-  image(egg,200,500,50,50)
-  text("Egg",290,530)
-  text("l'omelette",440,530)
+  text("Orange Juice",290,100)
+  text("Jus d'orange",440,100)
+  image(milk,200,170,50,50)
+  text("Milk",290,200)
+  text("Lait",440,200)
+  image(toast,200,270,50,50)
+  text("Toast",290,300)
+  text("Pain grillé",440,300)
+  image(egg,200,370,50,50)
+  text("Egg",300,400)
+  text("l'omelette",440,400)
+  image(waffle,200,470,50,50)
+  text("Waffle",290,500)
+  text("Gaufre",440,500)
+  image(coffee,200,570,50,50)
+  text("Coffee",290,600)
+  text("Café",440,600)
+
+
+  
 
   // fill(120,200,230)
   // noStroke()
   // rect(420,590,100,50,30)
   fill("white")
   textSize(20)
-  text("Play!",400,600)
-  let play = dist(mouseX,mouseY,400,600)
-  stroke("red")
-  line(mouseX,mouseY,400,600)
+  text("Play!",370,700)
+  let play = dist(mouseX,mouseY,400,700)
+  //stroke("red")
+  //line(mouseX,mouseY,400,600)
   if(play < 50){
     // fill(120,250,230)
     // noStroke()
     // rect(420,590,100,50,30)
     fill("green")
     textSize(20)
-    text("Play!",400,600)
+    text("Play!",370,700)
     if(mouseIsPressed){
       state = 2
     }
@@ -324,6 +364,10 @@ function gamePlaying(){
   textSize(40)
   text(score ,100,50)
   textSize(10)
+  if(gamePlayStart === false){
+    meow.play()
+    gamePlayStart = true
+  }
 
 
   //background cats
@@ -335,6 +379,7 @@ function gamePlaying(){
 
   for(let i = 0; i < guests.length;i++){
     if(guests[i].count <= 100){
+     
       guests[i].hangingOut()
     }else if(guests[i].count > 100 && guests[i].isSeated === false && guests[i].status === "hanging" ){
       pos = guests[i].walking()
@@ -387,10 +432,10 @@ function gamePlaying(){
       //   rect(450,300,100,50,30)
         fill("white")
         textSize(20)
-        text("Restart",420,310)
-        let start = dist(mouseX,mouseY,430,300)
-        stroke("red")
-        line(mouseX,mouseY,430,300)
+        text("Restart",360,250)
+        let start = dist(mouseX,mouseY,360,250)
+        // stroke("red")
+        // line(mouseX,mouseY,430,300)
 
         if(start < 50){
           // fill(120,250,230)
@@ -398,13 +443,18 @@ function gamePlaying(){
           // rect(450,300,100,50,30)
         fill("green")
         textSize(20)
-        text("Restart",420,310)
+        text("Restart",360,250)
           if(mouseIsPressed){
+            done = undefined
             count = 0
             score = 0
             state = 0
+            gamePlayStart = false
+            catPlayer.status = undefined
+            practiceOnce = false
+            cheerOnce = false
             guests.push(new Guest(random(250,350),450))
-            done = undefined
+            
           }
 
         }
@@ -434,24 +484,24 @@ function gamePlaying(){
  
   smolTbl1.display()
   smolTbl2.display()
-  //smolTbl3.display()
+  smolTbl3.display()
   smolTbl4.display()
   smolTbl5.display()
-  //smolTbl6.display()
+  smolTbl6.display()
 
   //setting table end
 
   //setting items start
   eggItem.display(smolTbl1)
   toastItem.display(smolTbl2)
-  //waffleItem.display(smolTbl3)
+  waffleItem.display(smolTbl3)
   ojItem.display(smolTbl4)
   milkItem.display(smolTbl5)
-  //coffeeItem.display(smolTbl6)
+  coffeeItem.display(smolTbl6)
 
   //setting items end
   catPlayer.pickUp()
-  catPlayer.dropOff()
+  // catPlayer.dropOff()
 
 
   //image(coin,50,40,50,50)

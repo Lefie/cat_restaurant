@@ -1,3 +1,5 @@
+
+
 class Cat{
     constructor(x,y){
       this.x = x
@@ -74,12 +76,23 @@ class Cat{
         this.graphic = catDone
         image(this.graphic,this.x,this.y)
         if(score >= 10){
-          fill("pink")
+          if(cheerOnce === false){
+            cheer.play()
+            cheerOnce = true
+          }
+          
+          fill("green")
           textSize(30)
           text("good job!",this.x,this.y - 280)
 
         }else if (score < 10){
-          fill("pink")
+          if(practiceOnce === false){
+            practice.play()
+            practiceOnce = true
+          }
+          
+         
+          fill("red")
           textSize(30)
           text("Practice more!",this.x,this.y - 280)
 
@@ -88,6 +101,8 @@ class Cat{
       }
   
     }
+
+    
   
     move(){
   
@@ -154,10 +169,13 @@ class Cat{
         if(dist(eggItem.x,eggItem.y,this.x,this.y) < 82 && this.status === "standing"){
           this.withItemLeft = "egg"
          
+         
+         
         }
   
         if(dist(toastItem.x,toastItem.y,this.x,this.y) < 82  && this.status === "standing"){
           this.withItemLeft = "toast"
+         
         }
   
         if(dist(waffleItem.x,waffleItem.y,this.x,this.y ) < 82 && this.status === "standing"){
@@ -175,21 +193,13 @@ class Cat{
         if(dist(coffeeItem.x,coffeeItem.y,this.x,this.y ) < 105 && this.status === "standing"){
           this.withItemRight = "coffee"
         }
+
+        
   
     
       }
   
-      dropOff(){
-        fill("red")
-        //text("DISTANCE"+dist(spot1.x,spot1.y,this.x,this.y),500,20)
-        if(((dist(spot1.x,spot1.y,this.x,this.y) < 62)) && this.status == "standing"
-         ){
-           this.withItemLeft = "nothing"
-           this.withItemRight = "nothing"
-        }
-       
-  
-      }
+      
   
     
   }

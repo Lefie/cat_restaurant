@@ -257,6 +257,7 @@ class Guest{
 
         pickedItem1 = catPlayer.withItemLeft
         pickedItem2 = catPlayer.withItemRight
+
         
        
 
@@ -264,16 +265,23 @@ class Guest{
         two = dict[pickedItem2] === this.order1.item2
         
         let d = dist(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
-        // stroke("red")
-        // line(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
-        // text(d,250,300)
+        stroke("red")
+        line(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
+        text(d,250,300)
         // text("word "+ dict[pickedItem1] + " " + this.order1.item1, 200,400 )
         //     text("word "+ dict[pickedItem2] + " " + this.order1.item2, 200,430 )
-        if(d <= 64 && one === true && two === true){
-            score += 10
-            return "success"
-        
+
+        if(d < 65){
+            if( one === true && two === true){
+                text("success",150,10)
+                catPlayer.withItemLeft = "nothing"
+                catPlayer.withItemRight = "nothing"
+                score += 10
+                return "success"
+            
+            }
         }
+        
 
         return oldV
 
@@ -281,13 +289,17 @@ class Guest{
 
     addOrLoseCoins(){
         if(correct === true && userAns === 1){
+            success.play()
             return "Add"
         } else if(correct === true && userAns === 0){
+            fail.play()
             console.log("lose coins - should have accepted")
             return "Loss"
         }else if(correct === false && userAns === 1) {
+            fail.play()
             return "Loss"
         }else if(correct === false && userAns === 0){
+            success.play()
             return "Add"
         }
 
@@ -319,7 +331,6 @@ class Guest{
         answered = false
         this.isSeated = false
         spot1.isAvailable = true
-        //placedSucc = false
         pickedItem1 = null
         pickedItem2 = null
         correctMatch = false
@@ -331,7 +342,7 @@ class Guest{
 
         
         //go off screen
-        this.x += 1
+        this.x += 1.5
         this.move()
         if(this.x > 800){
             coins = undefined
@@ -350,156 +361,6 @@ class Guest{
       
   }
 
-
-  /*
-  
-        
-        correct = this.order1.checkCorrectness()
-        userAns = this.order1.detectCollisionWithMouse()
-
-        text("is this correct"+correct,240,120)
-        text("is user Ans " + userAns,240,150)
-
-        if(correct === true && userAns === "accepted"){
-           correctMatch = true
-            add = true
-        }
-
-        else if(correct === true && userAns === "rejected"){
-           
-            subtract = true
-        }
-
-        else if(correct === false && userAns === "accepted"){
-           
-            subtract = true
-        }
-
-        else if(correct === false && userAns === "rejected"){
-           
-            add = true
-            
-        }
-        if(answered === true && (correctMatch!= true)){
-            this.status = "leaving"
-        }
-
-        //if the food order is placed correctly and player accepts the order
-        if(correctMatch === true){
-            
-            text("left item: " +  catPlayer.withItem , 600, 200)
-            text("right item : " + catPlayer.withItemRight,500,300)
-            
-           
-            
-             //update whether or not cat is holding the correct items
-             if(catPlayer.withItemRight !== undefined && catPlayer.withItem !== undefined){
-                one = pickedItem1 === dict[catPlayer.withItem]
-                two = pickedItem2 === dict[catPlayer.withItemRight]
-                text("item from dict: " + dict[catPlayer.withItem],600,300)
-                text("item from dict: " + dict[catPlayer.withItemRight],600,400)
-                text("grabbed the left item?: " + one,600,350)
-                text("grabbed the right item ? " + two,600,450)
-            }
-           
-
-            if(one === true && two === true){
-                placedSucc = "yes"
-            }else{
-                placedSucc = "no"
-            }
-
-            text("placed success ? " + placedSucc,650,500)
-
-
-            let d = dist(catPlayer.x,catPlayer.y,spot1.x,spot1.y)
-            //once the distance is close enough, check correctness
-            if( d <= 62 ){
-                if(placedSucc === "yes"){
-                    add = true
-                    console.log("right");
-                    this.status = "leaving"
-                    
-                }else if(placedSucc === "no"){
-                    subtract = true
-                    console.log("wrong");
-                    console.log("status"+this.status)
-                    console.log("answered"+answered)
-                    console.log("spot is avail"+spot1.isAvailable)
-                    console.log("item1"+pickedItem1)
-                    console.log("item2"+pickedItem2)
-                    console.log("correct match"+correctMatch)
-                    console.log("correct " +correct)
-                    console.log("user ans" + userAns)
-                    //placedSucc = "false"
-                }
-
-            }
-
-
-        }
-
-
-  */
-
-
-
- /*
-      part of ordering food. 
-      if add is true, then show the coin +10 
-      if subtract is true, then show the coin -10
-*/
-
-/*
-      this.status = "ordering"
-        this.isSeated = true
-        this.graphic = guestPic
-        image(this.graphic,this.x,this.y,this.w,this.h)
-        
-        this.order1.display(answered)
-        pickedItem1 = this.order1.item1
-        pickedItem2 = this.order1.item2
-        
-        correct = this.order1.checkCorrectness()
-        userAns = this.order1.detectCollisionWithMouse(userAns)
-
-        coins = this.addOrLoseCoins()
-        if(coins === "Add"){
-            earn = new Coin(this.x,this.y-40,30)
-            timer1 += 1
-            if(timer1 < 50){
-                earn.display("earn")
-            }else{
-                answered = true
-            }
-
-        }
-
-        if(coins === "Loss"){
-            loss = new Coin(this.x,this.y-40,30)
-            timer2 += 1
-            if(timer2 < 50){
-                loss.display("loss")
-            }else{
-                answered = true
-                
-                //this.status = "leaving"
-            }
-
-        }
-      
-        
-      
-
- */
-
-
-  
-
- 
-
-
- 
 
 
   

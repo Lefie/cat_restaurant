@@ -15,14 +15,14 @@ coffee: Café
 */
 
 let foodVocab = [
-  ["l'omelette","l'omelatte","l'omelete"],
-  ["Pain grillé","Pein grillé","Pain grilla"],
-  ["Gaufre","Geufre","Guafre"]]
+  ["l'omelette","l'omelette","l'omelette","l'omelette","l'omelatte","l'omelatte","l'omelatte","l'omelatte","l'omelete","l'omelete","l'omelete","l'omelete"],
+  ["Pain grillé","Pain grillé","Pain grillé","Pain grillé","Pein grillé","Pein grillé","Pein grillé","Pein grillé","Pain grilla","Pain grilla","Pain grilla","Pain grilla"],
+  ["Gaufre","Gaufre","Gaufre","Gaufre","Geufre","Geufre","Geufre","Geufre","Guafre","Guafre","Guafre","Guafre"]]
 
 let drinkVocab = [
-  ["Jus d'orange","Jus d'ornge","Jas d'orange"],
-  ["Lait","Laite","Liat"],
-  ["Café","Cofé","Caffé"]]
+  ["Jus d'orange","Jus d'orange","Jus d'orange","Jus d'orange","Jus d'ornge","Jus d'ornge","Jus d'ornge","Jus d'ornge","Jas d'orange","Jas d'orange","Jas d'orange","Jas d'orange"],
+  ["Lait","Lait","Lait","Lait","Laite","Laite","Laite","Laite","Liat","Liat","Liat","Liat"],
+  ["Café","Café","Café","Café","Cofé","Cofé","Cofé","Cofé","Caffé","Caffé","Caffé","Caffé"]]
 
 
 
@@ -35,15 +35,13 @@ class Order{
     this.c = color(0,100,0)
     this.w = 100
     this.h = 100
-    this.index1 = int(random(0, 2))
-    this.index2 = int(random(0, 2))
-    this.item1 = foodVocab[this.index1][this.index2];
-    this.item2 = drinkVocab[this.index1][this.index2];
+    this.index1 = int(random(1, 3))
+    this.index2 = 0//int(random(0, 2))
+    this.item1 = foodVocab[int(random(0, 3))][int(random(0, 12))];
+    this.item2 = drinkVocab[int(random(0, 3))][int(random(0, 12))];
     this.counter = 0
    
-    
 
-    
   }
   
   display(ans){
@@ -54,8 +52,8 @@ class Order{
       fill("white")
       rect(this.x,this.y,this.w,this.h,20)
       fill("black")
-      text(foodVocab[this.index1][this.index2],this.x - 30,this.y-20)
-      text(drinkVocab[this.index1][this.index2],this.x - 30,this.y)
+      text(this.item1,this.x - 30,this.y-20)
+      text(this.item2,this.x - 30,this.y)
       fill("red")
       ellipse(this.x-30,this.y+30,20,20)
       fill("green")
@@ -73,10 +71,10 @@ class Order{
     //text("order :"+this.x+" " +this.y,450,20)
     let dRed = dist(mouseX,mouseY,this.x+30,this.y + 30)
     let dGreen = dist(mouseX,mouseY,this.x-30,this.y + 30)
-    line(mouseX,mouseY,this.x+30,this.y + 30)
-    line(mouseX,mouseY,this.x-30,this.y + 30)
-    text("red: " +dRed,50,100)
-    text("Green: " +dGreen,50,120)
+    // line(mouseX,mouseY,this.x+30,this.y + 30)
+    // line(mouseX,mouseY,this.x-30,this.y + 30)
+    // text("red: " +dRed,50,100)
+    // text("Green: " +dGreen,50,120)
 
     
 
